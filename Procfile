@@ -1,1 +1,1 @@
-web: gunicorn ykubot-test-bot.wsgi --log-file -
+web: gunicorn hello:app --log-file -
