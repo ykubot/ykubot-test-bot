@@ -75,4 +75,4 @@ if __name__ == "__main__":
     # options = arg_parser.parse_args()
     #
     # app.run(debug=options.debug, port=options.port)
-    app.run()
+    app.run('0.0.0.0')
