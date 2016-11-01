@@ -4,7 +4,7 @@ import os
 import sys
 from argparse import ArgumentParser
 
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 from linebot import (
     LineBotApi, WebhookParser
 )
@@ -30,6 +30,12 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
+@app.route('/')
+def index():
+    title = "kubot"
+    message = "Hello"
+    return render_template('index.html',
+                           message=message, title=title)
 
 @app.route("/callback", methods=['POST'])
 def callback():
