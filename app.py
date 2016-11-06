@@ -45,7 +45,7 @@ def callback():
     #     abort(400)
 
     # get request body as text
-    body = request.get_json(as_text=True)
+    body = request.get_json()
     app.logger.info("Request body: " + body)
 
     # parse webhook body
@@ -56,10 +56,10 @@ def callback():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
-        if not isinstance(event, MessageEvent):
-            continue
-        if not isinstance(event.message, TextMessage):
-            continue
+        # if not isinstance(event, MessageEvent):
+        #     continue
+        # if not isinstance(event.message, TextMessage):
+        #     continue
 
         # text = event.message.text
         text = '今でしょ！'
