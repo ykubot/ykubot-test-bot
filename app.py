@@ -4,7 +4,7 @@ import os
 import sys
 from argparse import ArgumentParser
 
-from flask import Flask, request, abort, render_template, jsonify
+from flask import Flask, request, abort, render_template, jsonify, Response
 from linebot import (
     LineBotApi, WebhookParser
 )
@@ -38,6 +38,7 @@ def index():
     return render_template('index.html',
                            message=message, title=title)
 
+
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -47,7 +48,6 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-    render_template('index.html', message=body)
 
     # parse webhook body
     try:
@@ -69,7 +69,13 @@ def callback():
             event.reply_token,
             TextSendMessage(text)
         )
-    return jsonify('OK')
+
+    # レスポンスオブジェクトを作る
+    response = Response()
+    # ステータスコードは NoContent (200)
+    response.status_code = 200
+    return response
+    # return jsonify('OK'), HTTP_200_OK
 
 
 if __name__ == "__main__":
