@@ -66,7 +66,8 @@ def callback():
 
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text)
+            TextSendMessage(text),
+            timeout=10000
         )
     return jsonify('OK')
 
