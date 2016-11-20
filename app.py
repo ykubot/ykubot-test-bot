@@ -43,7 +43,7 @@ def index():
 
 def create_message(text):
     messages = ['今でしょ！',
-                '今でしょ！',
+                '・・・',
                 'せやろか？',
                 'せやな^^',
                 'なんでやねん笑',
