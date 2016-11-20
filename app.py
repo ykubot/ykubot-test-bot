@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 import os
 import sys
+import random
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort, render_template, jsonify, Response
@@ -31,12 +32,35 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
+
 @app.route('/')
 def index():
     title = "kubot"
     message = "Hello"
     return render_template('index.html',
                            message=message, title=title)
+
+
+def create_message(text):
+    messages = ['今でしょ！',
+                '今でしょ！',
+                'せやろか？',
+                'せやな^^',
+                'なんでやねん笑',
+                'それな',
+                'あー、ね',
+                'マジでか',
+                'w',
+                'ww',
+                'www',
+                'からの〜',
+                'て、思うやん？']
+    if '？' in text:
+        return 'ちょっと何言ってるかわからないです'
+    elif '今でしょ' in text:
+        return 'まだでしょ！'
+    else:
+        return messages[random.randint(0, len(messages))]
 
 
 @app.route("/callback", methods=['POST'])
@@ -63,7 +87,7 @@ def callback():
         #     continue
 
         # text = event.message.text
-        text = '今でしょ！'
+        text = create_message(event.message.text)
 
         line_bot_api.reply_message(
             event.reply_token,
