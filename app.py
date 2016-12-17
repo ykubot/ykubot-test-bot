@@ -5,6 +5,7 @@ import sys
 import random
 from argparse import ArgumentParser
 
+import linebot
 from flask import Flask, request, abort, render_template, jsonify, Response
 from linebot import (
     LineBotApi, WebhookParser
@@ -66,8 +67,8 @@ def create_message(text):
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
-    # if not request.json:
-    #     abort(400)
+    if not request.json:
+        abort(400)
 
     # get request body as text
     body = request.get_data(as_text=True)
@@ -81,13 +82,22 @@ def callback():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
-        # if not isinstance(event, MessageEvent):
-        #     continue
-        # if not isinstance(event.message, TextMessage):
-        #     continue
+        if not isinstance(event, MessageEvent):
+            continue
+        if not isinstance(event.message, TextMessage):
+            continue
 
         # text = event.message.text
         text = create_message(event.message.text)
+
+        try:
+            profile = line_bot_api.get_profile(event.source.userId)
+            print(profile.display_name)
+            print(profile.user_id)
+            print(profile.picture_url)
+            print(profile.status_message)
+        except linebot.LineBotApiError as e:
+            abort(e)
 
         # Get image
         # message_content = line_bot_api.get_content(event.message.id)
@@ -96,18 +106,17 @@ def callback():
         # with open(file_path, 'wb') as fd:
         #     for chunk in message_content.iter_content():
         #         fd.write(chunk)
-        #
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     TextSendMessage(text)
-        # )
+
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text)
+        )
 
     # レスポンスオブジェクトを作る
     response = Response()
     # ステータスコードは NoContent (200)
     response.status_code = 200
     return response
-    # return jsonify('OK'), HTTP_200_OK
 
 
 if __name__ == "__main__":
