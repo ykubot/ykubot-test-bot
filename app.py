@@ -87,6 +87,8 @@ def callback():
         if not isinstance(event.message, TextMessage):
             continue
 
+        print(event)
+
         # text = event.message.text
         text = create_message(event.message.text)
 
