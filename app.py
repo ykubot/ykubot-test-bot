@@ -82,20 +82,13 @@ def callback():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
-        if not isinstance(event, MessageEvent):
-            continue
-        if not isinstance(event.message, TextMessage):
-            continue
-
+        # if not isinstance(event, MessageEvent):
+        #     continue
+        # if not isinstance(event.message, TextMessage):
+        #     continue
         print(event)
-
         # text = event.message.text
         text = create_message(event.message.text)
-        profile = line_bot_api.get_profile(event.source.userId)
-        print(profile.display_name)
-        print(profile.user_id)
-        print(profile.picture_url)
-        print(profile.status_message)
 
         # Get image
         # message_content = line_bot_api.get_content(event.message.id)
@@ -109,6 +102,12 @@ def callback():
             event.reply_token,
             TextSendMessage(text)
         )
+
+        profile = line_bot_api.get_profile(event.source.userId)
+        print(profile.display_name)
+        print(profile.user_id)
+        print(profile.picture_url)
+        print(profile.status_message)
 
     # レスポンスオブジェクトを作る
     response = Response()
