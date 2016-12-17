@@ -103,11 +103,11 @@ def callback():
             TextSendMessage(text)
         )
 
-        profile = line_bot_api.get_profile(event.source.userId)
-        print(profile.display_name)
-        print(profile.user_id)
-        print(profile.picture_url)
-        print(profile.status_message)
+        # profile = line_bot_api.get_profile(event.source.userId)
+        # print(profile.display_name)
+        # print(profile.user_id)
+        # print(profile.picture_url)
+        # print(profile.status_message)
 
     # レスポンスオブジェクトを作る
     response = Response()
