@@ -16,7 +16,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
+    MessageEvent, TextMessage, TextSendMessage, ImageMessage
 )
 
 app = Flask(__name__)
@@ -148,29 +148,29 @@ def callback():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
-        # if not isinstance(event, MessageEvent):
-        #     continue
-        # if not isinstance(event.message, TextMessage):
-        #     continue
-        # print(event)
-        text = '画像テスト'
-        # text = event.message.text
-        # text = create_message(event.message.text)
+        if not isinstance(event, MessageEvent):
+            continue
+        if isinstance(event.message, TextMessage):
+            # text = event.message.text
+            text = create_message(event.message.text)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text)
+            )
+        if isinstance(event.message, ImageMessage):
+            # Get image content
+            message_content = line_bot_api.get_message_content(event.message.id)
+            # with open(file_path, 'wb') as fd:
+            #     for chunk in message_content.iter_content():
+            #         fd.write(chunk)
 
-        # Get image content
-        message_content = line_bot_api.get_message_content(event.message.id)
-        # with open(file_path, 'wb') as fd:
-        #     for chunk in message_content.iter_content():
-        #         fd.write(chunk)
-
-        data = get_emotion(message_content.content, get_ms_header(api_key))
-        print(data)
-        text = create_emotion_message(data)
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text)
-        )
+            data = get_emotion(message_content.content, get_ms_header(api_key))
+            print(data)
+            text = create_emotion_message(data)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text)
+            )
 
         # print(event.source.userId)
         # profile = line_bot_api.get_profile(event.source.userId)
