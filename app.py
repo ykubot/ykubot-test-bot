@@ -91,15 +91,11 @@ def callback():
 
         # text = event.message.text
         text = create_message(event.message.text)
-
-        try:
-            profile = line_bot_api.get_profile(event.source.userId)
-            print(profile.display_name)
-            print(profile.user_id)
-            print(profile.picture_url)
-            print(profile.status_message)
-        except linebot.LineBotApiError as e:
-            abort(e)
+        profile = line_bot_api.get_profile(event.source.userId)
+        print(profile.display_name)
+        print(profile.user_id)
+        print(profile.picture_url)
+        print(profile.status_message)
 
         # Get image
         # message_content = line_bot_api.get_content(event.message.id)
