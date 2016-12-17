@@ -94,7 +94,7 @@ def callback():
         # text = create_message(event.message.text)
 
         # Get image
-        message_content = line_bot_api.get_content(event.message.id)
+        message_content = line_bot_api.get_message_content(event.message.id)
         file_path = '/temp/' + event.message.id + '.jpg'
         print(file_path)
         app.logger.info(file_path)

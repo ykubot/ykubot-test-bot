@@ -6,5 +6,5 @@ click==6.6
 future==0.16.0
 gunicorn==19.6.0
 itsdangerous==0.24
-line-bot-sdk==1.0.2
+line-bot-sdk
 requests==2.11.1
