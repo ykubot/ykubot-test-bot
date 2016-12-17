@@ -110,7 +110,7 @@ def create_emotion_message(data):
         face_fear = float_format(face_scores['fear'])
         face_neutral = float_format(face_scores['neutral'])
         face_anger = float_format(face_scores['anger'])
-        face_happiness = float_format(my_round(face_scores['happiness'], 6))
+        face_happiness = float_format(face_scores['happiness'])
         face_sadness = float_format(face_scores['sadness'])
         print('Surprise: ', face_surprise)
         print('Contempt: ', face_contempt)
@@ -120,6 +120,29 @@ def create_emotion_message(data):
         print('Anger: ', face_anger)
         print('Happiness: ', face_happiness)
         print('Sadness: ', face_sadness)
+        text = '驚き:' + face_surprise + '\n'
+        text += '軽蔑:' + face_contempt + '\n'
+        text += 'いらいら:' + face_disgust + '\n'
+        text += '恐怖:' + face_fear + '\n'
+        text += '素:' + face_neutral + '\n'
+        text += '怒り:' + face_anger + '\n'
+        text += '喜び:' + face_happiness + '\n'
+        text += '悲しみ:' + face_sadness + '\n'
+    return text
+
+
+def create_judge_message(data):
+    for face in data:
+        face_scores = face['scores']
+        face_surprise = float_format(face_scores['surprise'])
+        face_contempt = float_format(face_scores['contempt'])
+        face_disgust = float_format(face_scores['disgust'])
+        face_fear = float_format(face_scores['fear'])
+        face_neutral = float_format(face_scores['neutral'])
+        face_anger = float_format(face_scores['anger'])
+        face_happiness = float_format(face_scores['happiness'])
+        face_sadness = float_format(face_scores['sadness'])
+
         text = '驚き:' + face_surprise + '\n'
         text += '軽蔑:' + face_contempt + '\n'
         text += 'いらいら:' + face_disgust + '\n'
