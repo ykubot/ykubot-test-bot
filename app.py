@@ -90,17 +90,17 @@ def callback():
         text = create_message(event.message.text)
 
         # Get image
-        message_content = line_bot_api.get_content(event.message.id)
-        file_path = '/temp/' + event.message.id + '.jpg'
-        app.logger.info(file_path)
-        with open(file_path, 'wb') as fd:
-            for chunk in message_content.iter_content():
-                fd.write(chunk)
-
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text)
-        )
+        # message_content = line_bot_api.get_content(event.message.id)
+        # file_path = '/temp/' + event.message.id + '.jpg'
+        # app.logger.info(file_path)
+        # with open(file_path, 'wb') as fd:
+        #     for chunk in message_content.iter_content():
+        #         fd.write(chunk)
+        #
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text)
+        # )
 
     # レスポンスオブジェクトを作る
     response = Response()
@@ -119,4 +119,3 @@ if __name__ == "__main__":
     options = arg_parser.parse_args()
 
     app.run(debug=options.debug, port=options.port)
-    # app.run(port = 5000, threaded = True, debug = True)
