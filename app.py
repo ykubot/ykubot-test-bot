@@ -89,8 +89,9 @@ def callback():
         # if not isinstance(event.message, TextMessage):
         #     continue
         print(event)
+        text = '画像テスト'
         # text = event.message.text
-        text = create_message(event.message.text)
+        # text = create_message(event.message.text)
 
         # Get image
         message_content = line_bot_api.get_content(event.message.id)
