@@ -8,7 +8,6 @@ import sys
 import random
 from argparse import ArgumentParser
 
-import linebot
 from flask import Flask, request, abort, render_template, Response
 from linebot import (
     LineBotApi, WebhookParser
@@ -36,6 +35,10 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
+# Set Microsoft cognitive api key
+with open('api_key.txt', 'r') as f:
+    api_key = f.read().rstrip('\n')
+
 
 @app.route('/')
 def index():
@@ -43,6 +46,14 @@ def index():
     message = "Hello"
     return render_template('index.html',
                            message=message, title=title)
+
+
+def get_ms_header(key):
+    headers = {
+        'Content-Type': 'application/octet-stream',
+        'Ocp-Apim-Subscription-Key': key,
+    }
+    return headers
 
 
 def get_emotion(binary_file, header):
@@ -98,15 +109,13 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-    print(body)
 
     # parse webhook body
     try:
         events = parser.parse(body, signature)
     except InvalidSignatureError:
         abort(400)
-    print(events)
+    # print(events)
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
@@ -114,28 +123,18 @@ def callback():
         #     continue
         # if not isinstance(event.message, TextMessage):
         #     continue
-        print(event)
+        # print(event)
         text = '画像テスト'
         # text = event.message.text
         # text = create_message(event.message.text)
 
-        # Get image
+        # Get image content
         message_content = line_bot_api.get_message_content(event.message.id)
-        file_path = '/temp/' + event.message.id + '.jpg'
-        print(file_path)
-        print(message_content.content)
         # with open(file_path, 'wb') as fd:
         #     for chunk in message_content.iter_content():
         #         fd.write(chunk)
-        with open('api_key.txt', 'r') as f:
-            api_key = f.read().rstrip('\n')
 
-        headers = {
-            'Content-Type': 'application/octet-stream',
-            'Ocp-Apim-Subscription-Key': api_key,
-        }
-
-        data = get_emotion(message_content.content, headers)
+        data = get_emotion(message_content.content, get_ms_header(api_key))
         print(data)
 
         line_bot_api.reply_message(
