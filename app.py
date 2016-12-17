@@ -93,19 +93,20 @@ def callback():
         text = create_message(event.message.text)
 
         # Get image
-        # message_content = line_bot_api.get_content(event.message.id)
-        # file_path = '/temp/' + event.message.id + '.jpg'
-        # app.logger.info(file_path)
-        # with open(file_path, 'wb') as fd:
-        #     for chunk in message_content.iter_content():
-        #         fd.write(chunk)
+        message_content = line_bot_api.get_content(event.message.id)
+        file_path = '/temp/' + event.message.id + '.jpg'
+        print(file_path)
+        app.logger.info(file_path)
+        with open(file_path, 'wb') as fd:
+            for chunk in message_content.iter_content():
+                fd.write(chunk)
 
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text)
         )
-        print(event.source.userId)
 
+        # print(event.source.userId)
         # profile = line_bot_api.get_profile(event.source.userId)
         # print(profile.display_name)
         # print(profile.user_id)
