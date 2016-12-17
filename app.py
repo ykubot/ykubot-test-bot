@@ -123,7 +123,7 @@ def callback():
         message_content = line_bot_api.get_message_content(event.message.id)
         file_path = '/temp/' + event.message.id + '.jpg'
         print(file_path)
-        print(message_content)
+        print(message_content.content)
         # with open(file_path, 'wb') as fd:
         #     for chunk in message_content.iter_content():
         #         fd.write(chunk)
@@ -135,7 +135,7 @@ def callback():
             'Ocp-Apim-Subscription-Key': api_key,
         }
 
-        data = get_emotion(message_content, headers)
+        data = get_emotion(message_content.content, headers)
         print(data)
 
         line_bot_api.reply_message(
