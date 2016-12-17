@@ -1,12 +1,15 @@
 from __future__ import unicode_literals
 
+import http
+import json
+import math
 import os
 import sys
 import random
 from argparse import ArgumentParser
 
 import linebot
-from flask import Flask, request, abort, render_template, jsonify, Response
+from flask import Flask, request, abort, render_template, Response
 from linebot import (
     LineBotApi, WebhookParser
 )
@@ -53,8 +56,7 @@ def get_emotion(binary_file, header):
         return json_data
 
     except Exception as e:
-        print("[Errno {0}] {1}".format(e.errno, e.strerror))
-        print(e.message)
+        print(e)
 
 
 def float_format(num):
