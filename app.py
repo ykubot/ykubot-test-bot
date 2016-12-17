@@ -42,6 +42,30 @@ def index():
                            message=message, title=title)
 
 
+def get_emotion(binary_file, header):
+    try:
+        conn = http.client.HTTPSConnection('api.projectoxford.ai')
+        conn.request("POST", "/emotion/v1.0/recognize?", binary_file, header)
+        response = conn.getresponse()
+        response_data = response.read()
+        json_data = json.loads(response_data.decode('utf-8'))
+        conn.close()
+        return json_data
+
+    except Exception as e:
+        print("[Errno {0}] {1}".format(e.errno, e.strerror))
+        print(e.message)
+
+
+def float_format(num):
+    return '%.6f' % num
+
+
+def my_round(num, d=0):
+    p = 10 ** d
+    return float(math.floor((num * p) + math.copysign(0.5, num))) / p
+
+
 def create_message(text):
     messages = ['今でしょ！',
                 '・・・',
@@ -101,6 +125,16 @@ def callback():
         # with open(file_path, 'wb') as fd:
         #     for chunk in message_content.iter_content():
         #         fd.write(chunk)
+        with open('api_key.txt', 'r') as f:
+            api_key = f.read().rstrip('\n')
+
+        headers = {
+            'Content-Type': 'application/octet-stream',
+            'Ocp-Apim-Subscription-Key': api_key,
+        }
+
+        data = get_emotion(message_content, headers)
+        print(data)
 
         line_bot_api.reply_message(
             event.reply_token,
