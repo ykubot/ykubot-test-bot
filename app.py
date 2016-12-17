@@ -104,6 +104,7 @@ def callback():
             event.reply_token,
             TextSendMessage(text)
         )
+        print(event.source.userId)
 
         # profile = line_bot_api.get_profile(event.source.userId)
         # print(profile.display_name)
