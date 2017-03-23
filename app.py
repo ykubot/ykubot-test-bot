@@ -171,8 +171,8 @@ def callback():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
-        if not isinstance(event, MessageEvent):
-            continue
+        # if not isinstance(event, MessageEvent):
+        #     continue
         if isinstance(event.message, TextMessage):
             # text = event.message.text
             text = create_message(event.message.text)
@@ -194,7 +194,7 @@ def callback():
                 event.reply_token,
                 TextSendMessage(text)
             )
-        if event.type == "beacon":
+        if isinstance(event, BeaconEvent):
             print(event)
             text = 'ようこそkubotビーコンへ！'
             print(text)
