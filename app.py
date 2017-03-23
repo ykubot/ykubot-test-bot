@@ -194,20 +194,17 @@ def callback():
                 event.reply_token,
                 TextSendMessage(text)
             )
-        if isinstance(event, BeaconEvent):
+        if isinstance(event.beacon, BeaconEvent):
             print(event)
             text = 'ようこそkubotビーコンへ！'
-            line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text)
-            )
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text))
 
-        print(event.source.userId)
-        profile = line_bot_api.get_profile(event.source.userId)
-        print(profile.display_name)
-        print(profile.user_id)
-        print(profile.picture_url)
-        print(profile.status_message)
+        # print(event.source.userId)
+        # profile = line_bot_api.get_profile(event.source.userId)
+        # print(profile.display_name)
+        # print(profile.user_id)
+        # print(profile.picture_url)
+        # print(profile.status_message)
 
     # レスポンスオブジェクトを作る
     response = Response()
