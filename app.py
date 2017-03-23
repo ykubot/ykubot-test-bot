@@ -194,6 +194,12 @@ def callback():
                 event.reply_token,
                 TextSendMessage(text)
             )
+        if isinstance(event.message, BeaconEvent):
+            text = 'ようこそkubotビーコンへ！'
+            line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text)
+            )
 
         # print(event.source.userId)
         # profile = line_bot_api.get_profile(event.source.userId)
