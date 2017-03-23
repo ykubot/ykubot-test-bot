@@ -167,7 +167,7 @@ def callback():
         events = parser.parse(body, signature)
     except InvalidSignatureError:
         abort(400)
-    # print(events)
+    print(events)
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
@@ -202,12 +202,12 @@ def callback():
             TextSendMessage(text)
             )
 
-        # print(event.source.userId)
-        # profile = line_bot_api.get_profile(event.source.userId)
-        # print(profile.display_name)
-        # print(profile.user_id)
-        # print(profile.picture_url)
-        # print(profile.status_message)
+        print(event.source.userId)
+        profile = line_bot_api.get_profile(event.source.userId)
+        print(profile.display_name)
+        print(profile.user_id)
+        print(profile.picture_url)
+        print(profile.status_message)
 
     # レスポンスオブジェクトを作る
     response = Response()
