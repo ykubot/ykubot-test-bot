@@ -171,8 +171,14 @@ def callback():
 
     # if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
-        # if not isinstance(event, MessageEvent):
-        #     continue
+        if isinstance(event, BeaconEvent):
+            print(event)
+            text = 'ようこそkubotビーコンへ！'
+            print(text)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text))
+
+        if not isinstance(event, MessageEvent):
+            continue
         if isinstance(event.message, TextMessage):
             # text = event.message.text
             text = create_message(event.message.text)
@@ -194,11 +200,6 @@ def callback():
                 event.reply_token,
                 TextSendMessage(text)
             )
-        if isinstance(event, BeaconEvent):
-            print(event)
-            text = 'ようこそkubotビーコンへ！'
-            print(text)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text))
 
         # print(event.source.userId)
         # profile = line_bot_api.get_profile(event.source.userId)
