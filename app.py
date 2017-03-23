@@ -194,7 +194,7 @@ def callback():
                 event.reply_token,
                 TextSendMessage(text)
             )
-        if isinstance(event.beacon, BeaconEvent):
+        if event.beacon.type == "enter":
             print(event)
             text = 'ようこそkubotビーコンへ！'
             print(text)
